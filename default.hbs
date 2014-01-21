@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{{! Document Settings }}
+	<meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+	{{! Page Meta }}
+	<title>{{meta_title}}</title>
+	<meta name="description" content="{{meta_description}}" />
+
+	{{! Styles, change style.css  }}
+	<link rel="stylesheet" type="text/css" href="/assets/css/normalize.css" />
+	<link href='http://fonts.googleapis.com/css?family=Poly|Roboto:400,700,300|Roboto+Condensed' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="/assets/css/style.css" />{{! optional style.css, style-light.css, style-dark.css, style-maltish.css  }}
+	<style>
+		#themecover_mobileworking_willsong {
+			background: url({{#if @blog.cover}}{{@blog.cover}}{{else}}/assets/images/default-cover.jpg{{/if}}) no-repeat center center;
+			-webkit-background-size: cover;
+			-moz-background-size: cover;
+			-o-background-size: cover;
+			background-size: cover;
+			height: 100%;
+			left: 0;
+			position: fixed;
+			top: 0;
+			width: 100%;
+			z-index: -100;
+		}
+	</style>
+
+ 
+	{{! Responsive Meta Tags }}
+	<meta name="HandheldFriendly" content="True" />
+	<meta name="MobileOptimized" content="320" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
+	{{! Scripts }}
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+     
+{{ghost_head}}
+</head>
+<body class="{{body_class}}">
+
+	<div id="themecover_mobileworking_willsong"></div>
+
+	{{! Calls Index / Post}}
+	{{{body}}}
+
+ 	<footer>
+
+ 		{{! Edit your social media accounts at partials>social_media.hbs}}
+ 		{{> social_media}}
+
+ 		<p id="copyright_willsong">
+ 			© 2013, Willsong. All rights reserved.
+ 			Prowdly powered by <a href="http://ghost.org">Ghost</a>. Theme created by <a href="http://marcosn.com">Marcosn.com</a>
+ 		</p>
+ 	</footer>
+
+ 	{{! The jquery fitvids and appear plugins}}
+ 	<script src="/assets/js/jquery.fitvids.js"></script>
+	<script src="/assets/js/jquery.appear.js"></script>
+	{{! The core script containing the animations}}
+ 	<script src="/assets/js/main.js"></script>
+ 	{{ghost_foot}}
+
+</body>
+</html>

@@ -1,0 +1,47 @@
+{{!< default}}
+
+{{! The header when Index}}
+<header id="indexhead_willsong">
+	{{#if @blog.logo}}<a href="{{@blog.url}}"><img id="logo_willsong" src="{{@blog.logo}}" alt="{{@blog.title}}" /></a>
+		{{else}}<a id="blogname_willsong" href="{{@blog.url}}"><h1>{{@blog.title}}</h1></a>
+	{{/if}}
+	<div id="description_willsong" class="respowidth_willsong">
+		<h3>{{@blog.description}}</h3>
+	</div>
+</header>
+
+{{! MAIN content}}
+<section id="main_willsong" role="main">
+	<div id="articles_willsong" class="respowidth_willsong">
+
+	{{! The Index articles loop}}
+	{{#foreach posts}}
+		<article class="article_willsong" role="article" itemscope itemtype="http://schema.org/Article">
+
+			<div class="postdetails_willsong">
+				<span class="icon-clock"> </span> <time class="date_willsong" datetime="{{date format='dddd DD MMM YYYY'}}" itemprop="datePublished">{{date format='DD MMM YYYY'}}</time>
+				{{#if tags}}<p><span class="icon-tag"> </span> {{tags separator=", "}}</p>{{/if}}
+			</div><div class="mainright_willsong">
+				<h2 class="posttitle_willsong" itemprop="headline"><a href="{{{url}}}" rel="bookmark">{{title}}</a></h2>
+
+				<div class="lores_postdetails_willsong">
+					<span class="icon-clock"> </span> <time class="date_willsong" datetime="{{date format='dddd DD MMM YYYY'}}" itemprop="datePublished">{{date format='DD MMM YYYY'}}</time>{{#if tags}}<span class="icon-tag"> {{tags separator=", "}}</span>{{/if}}
+				</div>
+				
+				<div class="postcontent_willsong">
+					{{content words="80"}}
+				</div>
+				
+				<a href="{{{url}}}" class="readmore_willsong">Read More</a>
+			</div>
+				
+		</article>
+	{{/foreach}}
+
+	{{#if pagination}}
+		<div id="pagination_willsong">
+			{{{pagination}}}
+		</div>
+	{{/if}}
+	</div>
+</section>

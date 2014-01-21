@@ -1,0 +1,59 @@
+{{!< default}}
+
+{{! The header when Post}}
+<header id="posthead_willsong" class="respowidth_willsong">
+	{{#if @blog.logo}}<a href="{{@blog.url}}"><img id="logo_willsong" src="{{@blog.logo}}" alt="{{@blog.title}}" /></a>
+		{{else}}<a id="blogname_willsong" href="{{@blog.url}}"><h1>{{@blog.title}}</h1></a>
+	{{/if}}
+</header>
+
+{{! MAIN content}}
+<section id="main_willsong" role="main">
+	
+	{{! POST content}}
+	{{#post}}
+	<article id="thearticle_willsong" class="respowidth_willsong" role="article" itemscope itemtype="http://schema.org/Article">
+				
+		<h2 class="posttitle_willsong" itemprop="headline">{{title}}</h2>
+	
+		<div class="articledetails_willsong">
+			<span class="icon-clock"> </span> <time class="date_willsong" datetime="{{date format='dddd DD MMM YYYY'}}" itemprop="datePublished">{{date format='DD MMM YYYY'}}</time>{{#if tags}}<span class="icon-tag"> {{tags separator=", "}}</span>{{/if}}
+		</div>
+			
+		<div class="postcontent_willsong">
+			{{content}}
+		</div>
+
+		<div id="sharepost_willsong">
+			<span>Share this post:</span><br><br>
+		    <a class="sharelink_willsong" target="_blank" href="http://www.facebook.com/sharer.php?u={{url absolute="true"}}"><span class="icon-facebook"></span></a>
+		    <a class="sharelink_willsong" target="_blank" href="http://twitter.com/share?text={{title}}&url={{url absolute="true"}}"><span class="icon-twitter"></span></a>
+		    <a class="sharelink_willsong" target="_blank" href="https://plus.google.com/share?url={{url absolute="true"}}"><span class="icon-google-plus"></span></a>
+		</div>
+		
+		{{! Author area}}
+		{{#if author}}
+		<div id="author_willsong" itemscope itemtype="http://schema.org/Person">
+			{{#if author.image}}
+			<div id="authorimage_willsong"><img src="{{author.image}}" itemprop="image" /></div>
+			{{/if}}
+			<span id="authorname_willsong" itemprop="author">{{author.name}}</span><br>
+			{{#if author.website}}
+			<a id="authorwebsite_willsong" href="{{author.website}}" itemprop="url">{{author.website}}</a>
+			{{/if}}
+			<p id="authorbio_willsong">{{author.bio}}</p>
+		</div>
+		{{/if}}
+		
+		{{! Disqus embed, change your disqus shortname at partials/disqus.hbs}}
+		{{> disqus}}
+
+	</article>
+	{{/post}}
+	
+	{{#if pagination}}
+	<div id="pagination_willsong">
+		{{{pagination}}}
+	</div>
+	{{/if}}
+</section>
