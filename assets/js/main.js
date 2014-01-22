@@ -1,7 +1,7 @@
 $(function($) {
 	
 	// FitVids for Responsive Embed Videos
-	$('#main_willsong').fitVids();
+	$('#main_slb').fitVids();
 
 	// Function for article animation
 	var articleAppear = function (who) {
@@ -32,11 +32,11 @@ $(function($) {
 	     
 	};
 
-	$('.article_willsong').each(function(){
+	$('.article_slb').each(function(){
 		if ($(this).atScreen()) {
 			$('.appear-class').addClass('already-appeared').removeClass('appear-class');
-			articleSetappear($('.already-appeared').children('.mainright_willsong'));
-			articleAppear($(this).children('.mainright_willsong'));
+			articleSetappear($('.already-appeared').children('.mainright_slb'));
+			articleAppear($(this).children('.mainright_slb'));
 		}
 		else {
 			$(this).addClass('appear-class');
@@ -45,13 +45,13 @@ $(function($) {
 
 	$('body').on('touchstart',function(){
 		$('.appear-class').addClass('already-appeared').removeClass('appear-class');
-		articleSetappear($('.already-appeared').children('.mainright_willsong'));
+		articleSetappear($('.already-appeared').children('.mainright_slb'));
 	});
 
 	$('.appear-class').appear();
 
 	$('body').on('appear', '.appear-class', function() {
-		var who = $(this).children('.mainright_willsong');
+		var who = $(this).children('.mainright_slb');
 		articleAppear(who);
 	});
 	

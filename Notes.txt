@@ -1,0 +1,5 @@
+Google fonts being used:
+   font-family: 'Finger Paint', cursive;
+   font-family: 'PT Sans', sans-serif;
+   font-family: 'Source Sans Pro', sans-serif;
+   font-family: 'PT Serif', serif;
