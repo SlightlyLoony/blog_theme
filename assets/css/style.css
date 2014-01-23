@@ -1,2 +1,54 @@
 body {
-  color: #333888; }
+  background-color: #f0f6f0;
+  font-size: 1em; }
+
+.blog_header_td1 {
+  color: #335031;
+  position: relative;
+  border-bottom: 2px solid #335031;
+  margin-bottom: 10px; }
+  .blog_header_td1 .blog_header_background_td1 {
+    position: absolute;
+    overflow: hidden;
+    background: url(/assets/images/Race_pond_mountains.jpg) no-repeat center center;
+    background-size: 100%;
+    opacity: 0.3;
+    width: 100%;
+    height: 100%;
+    top: auto;
+    bottom: auto;
+    left: auto;
+    right: auto; }
+  .blog_header_td1 .blog_header_inner_td1 {
+    position: relative;
+    z-index: 10;
+    padding: 10px; }
+    .blog_header_td1 .blog_header_inner_td1 a:link {
+      color: #335031;
+      text-decoration: none; }
+    .blog_header_td1 .blog_header_inner_td1 a:visited {
+      color: #335031;
+      text-decoration: none; }
+    .blog_header_td1 .blog_header_inner_td1 a:hover {
+      color: red;
+      text-decoration: underline; }
+    .blog_header_td1 .blog_header_inner_td1 a:active {
+      color: red;
+      text-decoration: underline; }
+    .blog_header_td1 .blog_header_inner_td1 .blog_name_td1 {
+      font-family: "Finger Paint", sans-serif;
+      font-size: 450%;
+      display: inline-block; }
+      @media screen and (min-width: 1280px) {
+        .blog_header_td1 .blog_header_inner_td1 .blog_name_td1 {
+          display: block; } }
+    .blog_header_td1 .blog_header_inner_td1 .blog_description_td1 {
+      position: absolute;
+      right: 10px;
+      font-family: "Finger Paint", sans-serif;
+      font-size: 100%;
+      display: inline-block; }
+      @media screen and (min-width: 1280px) {
+        .blog_header_td1 .blog_header_inner_td1 .blog_description_td1 {
+          display: block;
+          right: auto; } }

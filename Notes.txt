@@ -1,5 +1,16 @@
+Important URLs:
+
+   Base URLs: https://slightlyloony.ghost.io
+              https://www.slightlyloony.com
+
+   resource URIs:
+      blog:                                      /
+      blog administration (including authoring): /ghost/
+      blog debug (import, export, delete):       /ghost/debug/
+
 Google fonts being used:
    font-family: 'Finger Paint', cursive;
    font-family: 'PT Sans', sans-serif;
    font-family: 'Source Sans Pro', sans-serif;
    font-family: 'PT Serif', serif;
+

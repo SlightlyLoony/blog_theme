@@ -1,0 +1,62 @@
+{{!< default}}
+
+{{! The header when Post}}
+<header id="index_head_td1">
+    {{> blog_header}}
+</header>
+
+
+{{! MAIN content}}
+<section id="main_td1" role="main">
+
+    {{! POST content}}
+    {{#post}}
+        <article id="in_article_td1" class="responsive_width_td1" role="article" itemscope itemtype="http://schema.org/Article">
+
+            <h2 class="in_post_title_td1" itemprop="headline">{{title}}</h2>
+
+            <div class="in_article_details_td1">
+                <span class="icon-clock"> </span>
+                <time class="date_td1" datetime="{{date format='dddd DD MMM YYYY'}}" itemprop="datePublished">{{date format='DD MMM YYYY'}}</time>
+                {{#if tags}}
+                    <span class="icon-tag">
+                        {{tags separator=", "}}
+                    </span>
+                {{/if}}
+            </div>
+
+            <div class="in_post_content_td1">
+                {{content}}
+            </div>
+
+            <div id="in_post_share_td1">
+                <span>Share this post:</span><br><br>
+                <a class="sharelink_td1" target="_blank" href="http://twitter.com/share?text={{title}}&url={{url absolute="true"}}"><span class="icon-twitter"></span></a>
+            </div>
+
+            {{! Author area}}
+            {{#if author}}
+                <div id="author_td1" itemscope itemtype="http://schema.org/Person">
+                    {{#if author.image}}
+                        <div id="author_image_td1"><img src="{{author.image}}" itemprop="image" /></div>
+                    {{/if}}
+                    <span id="author_name_td1" itemprop="author">{{author.name}}</span><br>
+                    {{#if author.website}}
+                        <a id="author_website_td1" href="{{author.website}}" itemprop="url">{{author.website}}</a>
+                    {{/if}}
+                    <p id="author_bio_td1">{{author.bio}}</p>
+                </div>
+            {{/if}}
+
+            {{! Disqus embed, change your disqus shortname at partials/disqus.hbs}}
+            {{> disqus}}
+
+        </article>
+    {{/post}}
+
+    {{#if pagination}}
+        <div id="pagination_td1">
+            {{{pagination}}}
+        </div>
+    {{/if}}
+</section>

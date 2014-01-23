@@ -1,6 +1,78 @@
-
-$primary-color: #333888;
+$base-size: 1em;
+$base-color: #e1ece0;
+$background-color: lighten( $base-color, 5%);
+$header-text-color: darken( $base-color, 65%);
+$header-font: 'Finger Paint', sans-serif;
 
 body {
-  color: $primary-color;
+  background-color: $background-color;
+  font-size: $base-size;
+}
+
+.blog_header_td1 {
+  color: $header-text-color;
+  position: relative;
+  border-bottom: 2px solid $header-text-color;
+  margin-bottom: 10px;
+
+  .blog_header_background_td1 {
+    position: absolute;
+    overflow: hidden;
+    background: url(/assets/images/Race_pond_mountains.jpg) no-repeat center center;
+    background-size: 100%;
+    opacity: 0.3;
+    width: 100%;
+    height: 100%;
+    top: auto;
+    bottom: auto;
+    left: auto;
+    right: auto;
+  }
+
+  .blog_header_inner_td1 {
+    position: relative;
+    z-index: 10;
+    padding: 10px;
+
+    a:link {
+      color: $header-text-color;
+      text-decoration: none;
+    }
+
+    a:visited {
+      color: $header-text-color;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: red;
+      text-decoration: underline;
+    }
+
+    a:active {
+      color: red;
+      text-decoration: underline;
+    }
+
+    .blog_name_td1 {
+      font-family: $header-font;
+      font-size: 450%;
+      display: inline-block;     // responsive: change to "block" for narrow screens
+      @media screen and (min-width:1280px) {
+        display: block;
+      }
+    }
+
+    .blog_description_td1 {
+      position: absolute;
+      right: 10px;
+      font-family: $header-font;
+      font-size: 100%;
+      display: inline-block;     // responsive: change to "block" for narrow screens
+      @media screen and (min-width: 1280px) {
+        display: block;
+        right: auto;
+      }
+    }
+  }
 }

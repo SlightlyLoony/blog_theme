@@ -1,0 +1,2 @@
+-- rotate blog header background photos (randomly?)
+-- rotate blog header quotations (randomly?)

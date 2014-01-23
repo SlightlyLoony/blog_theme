@@ -1,0 +1,47 @@
+{{!< default}}
+
+{{! The header when Index}}
+<header id="index_head_td1">
+    {{> blog_header}}
+</header>
+
+{{! MAIN content}}
+<section id="main_td1" role="main">
+    <div id="articles_td1" class="responsive_width_td1">
+
+        {{! The Index articles loop}}
+        {{#foreach posts}}
+            <article class="article_td1" role="article" itemscope itemtype="http://schema.org/Article">
+
+                <div class="post_title_td1" itemprop="headline">
+                    <a href="{{{url}}}" rel="bookmark">{{title}}</a>
+                </div>
+
+                <div class="post_content_td1">
+                    {{content}}
+                </div>
+
+                <div class="post_details_td1">
+                    <span class="icon-clock"> </span>
+                    <time class="date_td1" datetime="{{date format='dddd DD MMM YYYY'}}" itemprop="datePublished">
+                        {{date format='DD MMM YYYY'}}
+                    </time>
+                    {{#if tags}}
+                        <span class="icon-tag">
+                            {{tags separator=", "}}
+                        </span>
+                    {{/if}}
+                </div>
+
+                <a href="{{{url}}}" class="read_more_td1">Read More</a>
+
+            </article>
+        {{/foreach}}
+
+        {{#if pagination}}
+            <div id="pagination_td1">
+                {{{pagination}}}
+            </div>
+        {{/if}}
+    </div>
+</section>
