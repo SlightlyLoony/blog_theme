@@ -1,7 +1,7 @@
 <div class="blog_header_td1">
     <div class="blog_header_background_td1"></div>
     <div class="blog_header_inner_td1">
-        <div class="blog_name_td1">
+        <div id="blog_name_container_td1" class="blog_name_td1">
             {{#if @blog.logo}}
                 <a href="{{@blog.url}}"><img id="logo_td1" src="{{@blog.logo}}" alt="{{@blog.title}}" /></a>
             {{else}}
@@ -10,7 +10,7 @@
                 </a>
             {{/if}}
         </div>
-        <div class="blog_description_td1">
+        <div id="blog_description_td1" class="blog_description_td1">
             {{@blog.description}}
         </div>
     </div>

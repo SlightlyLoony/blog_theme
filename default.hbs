@@ -21,12 +21,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         {{! Scripts }}
-        <script type="text/javascript" src="/assets/js/prototype.js"></script>
+        <script type="text/javascript" src="/assets/js/main.js"></script>
 
         {{! required by Ghost }}
         {{ghost_head}}
     </head>
-    <body class="{{body_class}}">
+    <body id="body_td1" class="{{body_class}}">
 
         {{! invokes child hbs files (index, post, page) }}
         {{{body}}}
@@ -43,7 +43,18 @@
             </p>
         </footer>
 
-        {{! required by Ghost }}
+        {{! required by Ghost, also this is where jQuery is loaded (weird!) }}
         {{ghost_foot}}
+
+        {{! scripts that depend on jQuery must go here... }}
+        <script>
+            $( document ).ready( function() {
+                TD1.readyDispatcher()
+            } );
+
+            $( window ).load( function() {
+                TD1.loadDispatcher()
+            } );
+        </script>
     </body>
 </html>

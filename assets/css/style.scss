@@ -1,8 +1,14 @@
 $base-size: 1em;
 $base-color: #e1ece0;
 $background-color: lighten( $base-color, 5%);
+
+// header controls...
 $header-text-color: darken( $base-color, 65%);
 $header-font: 'Finger Paint', sans-serif;
+$header-padding: 10px;
+
+// responsiveness thresholds...
+$header-width-trigger: 1200px;
 
 body {
   background-color: $background-color;
@@ -32,7 +38,7 @@ body {
   .blog_header_inner_td1 {
     position: relative;
     z-index: 10;
-    padding: 10px;
+    padding: $header-padding;
 
     a:link {
       color: $header-text-color;
@@ -57,21 +63,26 @@ body {
     .blog_name_td1 {
       font-family: $header-font;
       font-size: 450%;
-      display: inline-block;     // responsive: change to "block" for narrow screens
-      @media screen and (min-width:1280px) {
+      @media screen and (max-width: $header-width-trigger - 1px) {
+        display: inline-block;
+      }
+      @media screen and (min-width: $header-width-trigger) {
         display: block;
       }
     }
 
     .blog_description_td1 {
-      position: absolute;
-      right: 10px;
       font-family: $header-font;
       font-size: 100%;
-      display: inline-block;     // responsive: change to "block" for narrow screens
-      @media screen and (min-width: 1280px) {
+      @media screen and (max-width: $header-width-trigger - 1px) {
         display: block;
         right: auto;
+      }
+      @media screen and (min-width: $header-width-trigger) {
+        display: inline-block;
+        position: absolute;
+        right: $header-padding;
+        top: $header-padding;
       }
     }
   }
