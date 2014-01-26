@@ -13,17 +13,25 @@ $post-font: 'PT Serif', serif;
 $post-details-font: 'PT Sans', sans-serif;
 $post-border-color: darken( $base-color, 30% );
 
+// this is very strange, but it fixes a bug in Safari...
+// see: http://stackoverflow.com/questions/6655364/css-attribute-selector-descendant-gives-a-bug-in-webkit
+[class]{}
+
 .post_td1 {
   color: $post-text-color;
   font-family: $post-font;
   font-size: 90%;
-  clear: both;
   border-bottom: 1px solid $post-border-color;
 
   .post_title_td1 {
     display: none;
   }
   .post_content_td1 {
+
+    p {
+      clear: both;
+    }
+
     a:link, a:visited {
       color: $post-text-color;
       text-decoration: none;
@@ -52,6 +60,47 @@ $post-border-color: darken( $base-color, 30% );
         border-bottom: 1px solid $post-link-color;
       }
     }
+
+    img[class=''] {
+      max-width: 100px;
+      display: none;
+    }
+  }
+
+  .img_left_td1 {
+    float: left;
+    display: block;
+    margin-right: 5px;
+  }
+
+  .img_right_td1 {
+    float: right;
+    display: block;
+    margin-left: 5px;
+  }
+
+  .img_inline_td1 {
+    display: block;
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+
+  .img_small_td1 {
+    max-width: $base-size * 10;
+  }
+
+  .img_medium_td1 {
+    max-width: $base-size * 15;
+  }
+
+  .img_large_td1 {
+    max-width: $base-size * 22.5;
+  }
+
+  .img_framed_td1 {
+    background-color: darken( $background-color, 10% );
+    padding: 2px;
+    border: 1px solid $post-text-color;
   }
 
   .post_details_td1 {
@@ -60,6 +109,7 @@ $post-border-color: darken( $base-color, 30% );
     font-size: 75%;
     color: $post-details-color;
     text-align: right;
+    clear: both;
 
     a:link, a:visited {
       color: $post-details-color;
