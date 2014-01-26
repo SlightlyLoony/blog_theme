@@ -1,5 +1,5 @@
 body {
-  background-color: #f0f6f0;
+  background-color: #fdfdfc;
   font-size: 1em; }
 
 .blog_header_td1 {
@@ -10,7 +10,7 @@ body {
   .blog_header_td1 .blog_header_background_td1 {
     position: absolute;
     overflow: hidden;
-    background: url(/assets/images/Race_pond_mountains.jpg) no-repeat center center;
+    background: url(/assets/images/Race_pond_mountains.jpg) repeat-y center center;
     background-size: 100%;
     opacity: 0.3;
     width: 100%;
@@ -21,39 +21,34 @@ body {
     right: auto; }
   .blog_header_td1 .blog_header_inner_td1 {
     position: relative;
-    z-index: 10;
-    padding: 10px; }
-    .blog_header_td1 .blog_header_inner_td1 a:link {
+    z-index: 10; }
+    .blog_header_td1 .blog_header_inner_td1 a:link, .blog_header_td1 .blog_header_inner_td1 a:visited {
       color: #335031;
       text-decoration: none; }
-    .blog_header_td1 .blog_header_inner_td1 a:visited {
-      color: #335031;
-      text-decoration: none; }
-    .blog_header_td1 .blog_header_inner_td1 a:hover {
-      color: red;
-      text-decoration: underline; }
-    .blog_header_td1 .blog_header_inner_td1 a:active {
-      color: red;
+    .blog_header_td1 .blog_header_inner_td1 a:hover, .blog_header_td1 .blog_header_inner_td1 a:active {
+      color: #542f00;
       text-decoration: underline; }
     .blog_header_td1 .blog_header_inner_td1 .blog_name_td1 {
       font-family: "Finger Paint", sans-serif;
-      font-size: 450%; }
-      @media screen and (max-width: 1199px) {
-        .blog_header_td1 .blog_header_inner_td1 .blog_name_td1 {
-          display: inline-block; } }
-      @media screen and (min-width: 1200px) {
-        .blog_header_td1 .blog_header_inner_td1 .blog_name_td1 {
-          display: block; } }
-    .blog_header_td1 .blog_header_inner_td1 .blog_description_td1 {
-      font-family: "Finger Paint", sans-serif;
-      font-size: 100%; }
-      @media screen and (max-width: 1199px) {
-        .blog_header_td1 .blog_header_inner_td1 .blog_description_td1 {
-          display: block;
-          right: auto; } }
-      @media screen and (min-width: 1200px) {
-        .blog_header_td1 .blog_header_inner_td1 .blog_description_td1 {
-          display: inline-block;
-          position: absolute;
-          right: 10px;
-          top: 10px; } }
+      font-size: 350%;
+      display: inline-block;
+      width: auto;
+      padding: 0.25em;
+      white-space: nowrap; }
+    .blog_header_td1 .blog_header_inner_td1 .blog_description_wide_container_td1 {
+      display: none; }
+      .blog_header_td1 .blog_header_inner_td1 .blog_description_wide_container_td1 .blog_description_td1 {
+        font-family: "Finger Paint", sans-serif;
+        font-size: 70%;
+        padding: 0.25em; }
+    .blog_header_td1 .blog_header_inner_td1 .blog_description_narrow_container_td1 {
+      display: none; }
+      .blog_header_td1 .blog_header_inner_td1 .blog_description_narrow_container_td1 .blog_description_td1 {
+        font-family: "Finger Paint", sans-serif;
+        font-size: 100%;
+        padding: 0.25em; }
+
+.index_td1 {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto; }

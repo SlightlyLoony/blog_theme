@@ -7,34 +7,33 @@
 
 {{! MAIN content}}
 <section id="main_td1" role="main">
-    <div id="articles_td1" class="responsive_width_td1">
+    {{!--<div id="message_td1" class="message_td1"></div>--}}
+    <div id="index_td1" class="index_td1">
 
         {{! The Index articles loop}}
         {{#foreach posts}}
-            <article class="article_td1" role="article" itemscope itemtype="http://schema.org/Article">
+            <article class="post_td1" role="article" itemscope itemtype="http://schema.org/Article">
 
-                <div class="post_title_td1" itemprop="headline">
-                    <a href="{{{url}}}" rel="bookmark">{{title}}</a>
-                </div>
+                <span class="post_title_td1"><span class="post_fixed_title_td1"><a href="{{{url}}}" rel="bookmark">{{title}}</a></span></span>
 
-                <div class="post_content_td1">
+                <span class="post_content_td1">
                     {{content}}
-                </div>
+                </span>
 
+                {{!-- Posted by (author) on Jan 23, 2014 6:35pm permalink Tags: --}}
                 <div class="post_details_td1">
-                    <span class="icon-clock"> </span>
+                    Posted by {{author.name}} on
                     <time class="date_td1" datetime="{{date format='dddd DD MMM YYYY'}}" itemprop="datePublished">
-                        {{date format='DD MMM YYYY'}}
+                        {{date format='MMM D, YYYY @ h:mma'}}
                     </time>
+                    &nbsp;&nbsp;<a href="{{{url}}}" rel="bookmark">Permalink</a>
                     {{#if tags}}
+                        &nbsp;&nbsp;Tags:
                         <span class="icon-tag">
                             {{tags separator=", "}}
                         </span>
                     {{/if}}
                 </div>
-
-                <a href="{{{url}}}" class="read_more_td1">Read More</a>
-
             </article>
         {{/foreach}}
 

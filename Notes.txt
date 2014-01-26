@@ -7,6 +7,7 @@ Important URLs:
       blog:                                      /
       blog administration (including authoring): /ghost/
       blog debug (import, export, delete):       /ghost/debug/
+      rss feed:                                  /rss
 
 Google fonts being used:
    font-family: 'Finger Paint', cursive;

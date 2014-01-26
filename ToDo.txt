@@ -1,0 +1,17 @@
+-- make content links go to new page (target="_blank")
+-- make images use title for layout directives
+   -- right float, small size (multiple of base size)
+   -- left float, small size)
+   -- end of post table of thumbnails
+   -- inline largish
+-- make video players work automatically (but how can we get left/right placement, or big ones?)
+-- fiddle with header name/description flip threshold; still not perfect
+-- better graphical separation of posts
+-- fix pagination
+-- make the footer prettier
+-- make blog description random picker
+-- make blog header background random picker
+-- add menus for static pages
+-- add twitter widget
+-- add about/bio pages
+--

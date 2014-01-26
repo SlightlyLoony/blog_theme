@@ -1,11 +1,14 @@
+// common stuff...
 $base-size: 1em;
 $base-color: #e1ece0;
-$background-color: lighten( $base-color, 5%);
+$comp-color: #ffd5a0;
+$background-color: lighten( $base-color, 9% );
 
 // header controls...
-$header-text-color: darken( $base-color, 65%);
+$header-text-color: darken( $base-color, 65% );
 $header-font: 'Finger Paint', sans-serif;
-$header-padding: 10px;
+$header-padding: $base-size * 0.25;
+$header-link-color: darken( $comp-color, 65% );
 
 // responsiveness thresholds...
 $header-width-trigger: 1200px;
@@ -24,7 +27,7 @@ body {
   .blog_header_background_td1 {
     position: absolute;
     overflow: hidden;
-    background: url(/assets/images/Race_pond_mountains.jpg) no-repeat center center;
+    background: url(/assets/images/Race_pond_mountains.jpg) repeat-y center center;
     background-size: 100%;
     opacity: 0.3;
     width: 100%;
@@ -38,52 +41,50 @@ body {
   .blog_header_inner_td1 {
     position: relative;
     z-index: 10;
-    padding: $header-padding;
 
-    a:link {
+    a:link, a:visited {
       color: $header-text-color;
       text-decoration: none;
     }
 
-    a:visited {
-      color: $header-text-color;
-      text-decoration: none;
-    }
-
-    a:hover {
-      color: red;
-      text-decoration: underline;
-    }
-
-    a:active {
-      color: red;
+    a:hover, a:active {
+      color: $header-link-color;
       text-decoration: underline;
     }
 
     .blog_name_td1 {
       font-family: $header-font;
-      font-size: 450%;
-      @media screen and (max-width: $header-width-trigger - 1px) {
-        display: inline-block;
-      }
-      @media screen and (min-width: $header-width-trigger) {
-        display: block;
+      font-size: 350%;
+      display: inline-block;
+      width: auto;
+      padding: $header-padding;
+      white-space: nowrap;
+    }
+
+    .blog_description_wide_container_td1 {
+      display: none;
+
+      .blog_description_td1 {
+        font-family: $header-font;
+        font-size: 70%;
+        padding: $header-padding;
       }
     }
 
-    .blog_description_td1 {
-      font-family: $header-font;
-      font-size: 100%;
-      @media screen and (max-width: $header-width-trigger - 1px) {
-        display: block;
-        right: auto;
-      }
-      @media screen and (min-width: $header-width-trigger) {
-        display: inline-block;
-        position: absolute;
-        right: $header-padding;
-        top: $header-padding;
+    .blog_description_narrow_container_td1 {
+      display: none;
+
+      .blog_description_td1 {
+        font-family: $header-font;
+        font-size: 100%;
+        padding: $header-padding;
       }
     }
   }
+}
+
+.index_td1 {
+  width: 90%;
+  margin-left: auto ;
+  margin-right: auto ;
 }
