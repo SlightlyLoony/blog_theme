@@ -4,6 +4,10 @@ $base-color: #e1ece0;
 $comp-color: #ffd5a0;
 $background-color: lighten( $base-color, 9% );
 
+
+// potentially interesting for post backgrounds...
+// background: linear-gradient(to bottom, rgba(245,253,252,0), rgba(245,253,252,1));
+
 // post controls...
 $post-text-color: darken( $base-color, 70% );
 $post-link-color: darken( $comp-color, 50% );
@@ -12,6 +16,8 @@ $post-details-link-color: darken( $comp-color, 40% );
 $post-font: 'PT Serif', serif;
 $post-details-font: 'PT Sans', sans-serif;
 $post-border-color: darken( $base-color, 30% );
+$thumb-background: lighten( $base-color, 5.5% );
+$thumb-padding: $base-size * 0.3;
 
 // this is very strange, but it fixes a bug in Safari...
 // see: http://stackoverflow.com/questions/6655364/css-attribute-selector-descendant-gives-a-bug-in-webkit
@@ -28,8 +34,12 @@ $post-border-color: darken( $base-color, 30% );
   }
   .post_content_td1 {
 
-    p {
-      clear: both;
+    .float_right_cont_td1 {
+      clear: right;
+    }
+
+    .float_left_cont_td1 {
+      clear: left;
     }
 
     a:link, a:visited {
@@ -65,24 +75,40 @@ $post-border-color: darken( $base-color, 30% );
       max-width: 100px;
       display: none;
     }
-  }
 
-  .img_left_td1 {
-    float: left;
-    display: block;
-    margin-right: 5px;
-  }
+    .thumb_left_frame_td1 {
+      float: left;
+      display: block;
+      margin-right: $thumb-padding;
+      margin-bottom: $thumb-padding;
+      margin-top: $thumb-padding;
+      background-color: $thumb-background;
+      padding: $thumb-padding;
+      border: 1px solid $post-text-color;
+      border-radius: 6px;
+    }
 
-  .img_right_td1 {
-    float: right;
-    display: block;
-    margin-left: 5px;
-  }
+    .thumb_right_frame_td1 {
+      float: right;
+      display: block;
+      margin-left: 5px;
+      margin-bottom: $thumb-padding;
+      margin-top: $thumb-padding;
+      background-color: $thumb-background;
+      padding: $thumb-padding;
+      border: 1px solid $post-text-color;
+      border-radius: 6px;
+    }
 
-  .img_inline_td1 {
-    display: block;
-    margin-left: 5px;
-    margin-right: 5px;
+    .thumb_inline_frame_td1 {
+      display: inline-block;
+      vertical-align: text-top;
+      margin: $thumb-padding;
+      background-color: $thumb-background;
+      padding: $thumb-padding;
+      border: 1px solid $post-text-color;
+      border-radius: 6px;
+    }
   }
 
   .img_small_td1 {
@@ -98,9 +124,8 @@ $post-border-color: darken( $base-color, 30% );
   }
 
   .img_framed_td1 {
-    background-color: darken( $background-color, 10% );
-    padding: 2px;
     border: 1px solid $post-text-color;
+    display: block;
   }
 
   .post_details_td1 {
@@ -110,6 +135,7 @@ $post-border-color: darken( $base-color, 30% );
     color: $post-details-color;
     text-align: right;
     clear: both;
+    margin-top: $base-size * 0.5;
 
     a:link, a:visited {
       color: $post-details-color;
@@ -121,4 +147,43 @@ $post-border-color: darken( $base-color, 30% );
       text-decoration: underline;
     }
   }
+
+  .thumb_table {
+    background-color: $thumb-background;
+    margin-right: auto;
+    margin-left: auto;
+    border: 1px solid $post-text-color;
+    border-spacing: $thumb-padding;
+    border-collapse: separate;
+    border-radius: 6px;
+    clear:both;
+
+    .thumb_cell {
+      vertical-align: bottom;
+    }
+
+    img {
+      border: 1px solid $post-text-color;
+      display: block;  // prevents extra space between rows (for text descenders)...
+    }
+  }
 }
+
+/*
+From Ricochet: provides gradient at bottom of truncated posts...
+
+display: none;
+z-index: 2;
+position: relative;
+height: 50px;
+margin-top: -50px;
+background: -moz-linear-gradient( bottom, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 100% );
+background: -webkit-gradient( linear, bottom, top, color-stop(0%, rgb(255, 255, 255)), color-stop(100%, rgba(255, 255, 255, 0)) );
+background: -webkit-linear-gradient( bottom, rgb(255,255,255) 0%, rgba(255, 255, 255, 0) 100% );
+background: -o-linear-gradient( bottom, rgb(255,255,255) 0%, rgba(255, 255, 255, 0) 100% );
+background: -ms-linear-gradient( bottom, rgb(255,255,255) 0%, rgba(255, 255, 255, 0) 100% );
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00FEFEFE', endColorstr='#FEFEFE', GradientType=0 );
+background: linear-gradient( bottom, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 100% );
+}
+
+*/

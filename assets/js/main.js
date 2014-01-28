@@ -71,7 +71,7 @@ TD1.initPosts = function() {
 
         TD1.postInfo[i] = map;
     }
-}
+};
 
 // fixes post titles, which are emitted before content paragraphs, but need to be inserted into the beginning of the first content paragraph...
 TD1.fixPostTitles = function() {
@@ -139,6 +139,9 @@ TD1.fixImage = function( post ) {
                 continue;
             }
 
+            // wrap a div around our image, so we can make a nice frame...
+            map.image.wrap( '<div class="thumb_frame"></div>' );
+
             // if we are floating left or right, and there's any text between the img and its container, move it left of the text...
             if ((map.position == '<') || (map.position == '>')) {
 
@@ -166,19 +169,28 @@ TD1.fixImage = function( post ) {
                 }
             }
 
-            // assign the right classes to our image...
+            // assign the right classes to our image and its wrapper...
             var classes;
-            switch (map.position) {
-                case '>': classes = 'img_right_td1 img_framed_td1'; break;
-                case '<': classes = 'img_left_td1 img_framed_td1'; break;
-                case '!': classes = 'img_inline_td1 img_framed_td1'; break;
-            }
             switch (map.thumbSize) {
-                case 's': classes += ' img_small_td1'; break;
-                case 'm': classes += ' img_medium_td1'; break;
-                case 'l': classes += ' img_large_td1'; break;
+                case 's': classes = 'img_framed_td1 img_small_td1'; break;
+                case 'm': classes = 'img_framed_td1 img_medium_td1'; break;
+                case 'l': classes = 'img_framed_td1 img_large_td1'; break;
             }
             map.image[0].className = classes;
+
+            switch (map.position) {
+                case '>': classes = 'thumb_right_frame_td1'; break;
+                case '<': classes = 'thumb_left_frame_td1'; break;
+                case '!': classes = 'thumb_inline_frame_td1'; break;
+            }
+            $( map.image[0]).parent()[0].className = classes;
+
+            // if we're inserting a float image, mark the parent paragraph as a float container...
+            if ((map.position == '>') || (map.position == '<')) {
+                var parentPara = $( map.image[0]).parent().parent()[0];
+                var floatClass = (map.position == '>') ? 'float_right_cont_td1' : 'float_left_cont_td1';
+                parentPara.className = TD1.ensureClass( parentPara.className, floatClass );
+            }
         }
     }
 
@@ -216,14 +228,20 @@ TD1.fixImage = function( post ) {
             // iterate over our row's columns...
             for (var c = 0; c < cols; c++) {
 
+                // compute the image index...
+                var imgIndex = (r * cols) + c;
+
+                // if we're on the first row, and we're out of images, just bail out so we dont' get empty cells...
+                if ((imgIndex >= tabled.length) && (r == 0))
+                    break;
+
                 // append our new column...
                 thumbRow.append( '<td class="thumb_cell"></td>' );
                 var thumbCol = thumbRow.children().filter( ':last' );
 
                 // if we have any thumbnails left, append them into our column...
-                var colNum = (r * cols) + c;
-                if (colNum < tabled.length) {
-                    var colImage = postMap.images[tabled[colNum]].image;
+                if (imgIndex < tabled.length) {
+                    var colImage = postMap.images[tabled[imgIndex]].image;
                     switch (targetSize) {
                         case 's': classes = 'img_small_td1'; break;
                         case 'm': classes = 'img_medium_td1'; break;
@@ -286,4 +304,27 @@ TD1.parseTitle = function( imageMap ) {
 
     // delete the directives from the title...
     imageMap.title = rawTitle.substr( term + 1 );
-}
+};
+
+// returns a string that contains the first string plus the second string if it wasn't already there, space separated.  Useful for ensuring
+// that a particular class is in a class parameter.
+TD1.ensureClass = function( currentClass, newClass ) {
+
+    if (!currentClass)
+        return newClass;
+
+    var classes = currentClass.split( ' ' );
+    if (!TD1.contains( classes, newClass ))
+        classes.push( newClass );
+
+    return classes.join( ' ' );
+};
+
+
+// returns true if the given array has an element matching the given value...
+TD1.contains = function( arr, val ) {
+    for (var i = 0; i < arr.length; i++)
+        if (val == arr[i])
+            return true;
+    return false;
+};

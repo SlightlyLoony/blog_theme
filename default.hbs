@@ -6,6 +6,12 @@
         <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
+        {{! ensure that images within posts don't display until we tell them to }}
+        <style>
+            [class]{}  {{! fixes strange Safari bug }}
+            .post_content_td1 img[class=''] { max-width: 100px; display: none; }
+        </style>
+
         {{! Page Meta }}
         <title>{{meta_title}}</title>
         <meta name="description" content="{{meta_description}}" />
