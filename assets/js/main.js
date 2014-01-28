@@ -20,7 +20,6 @@ TD1.postInfo = [];
 
 // invoked when document loads; drives all other document loaded behavior...
 TD1.loadDispatcher = function() {
-    //TD1.headerDescriptionAdjust();
 };
 
 // invoked when window resizes; drives all other window resize behavior...
@@ -35,7 +34,59 @@ TD1.readyDispatcher = function() {
     TD1.headerDescriptionAdjust();
     TD1.fixPostTitles();
     TD1.fixContent();
+    TD1.initializeTruncation();
+    $( '.more_button_td1').click( function( event ) { TD1.moreClick( event ); } );
+    $( '.less_button_td1').click( function( event ) { TD1.lessClick( event ); } );
 };
+
+
+// invoked when user clicks on a "more" button...
+TD1.moreClick = function( event ) {
+
+    // first kill the gradient overlay, which contains the "more" button...
+    $( event.target).parent().parent().css( 'display', 'none' );
+
+    // then stop truncating the post content...
+    TD1.addClass( $( event.target ).parent().parent().parent(), 'post_full_length_td1' );
+
+    // finally, display the "less" button...
+    $( event.target).parent().parent().parent().children( '.less_td1').css( 'display', 'block' );
+};
+
+
+// invoked when user clicks on a "less" button...
+TD1.lessClick = function( event ) {
+
+    // first kill the "less" button...
+    $( event.target).parent().css( 'display', 'none' );
+
+    // then set the max-height back to where it was...
+    TD1.removeClass( $( event.target ).parent().parent(), 'post_full_length_td1' );
+
+    // finally, enable the "more" button...
+    $( event.target ).parent().parent().children( '.truncated_post_gradient_div_td1').css( 'display', 'block' );
+};
+
+
+// displays gradient and "more" button on truncated posts...
+TD1.initializeTruncation = function() {
+
+    // iterate over the posts...
+    for (var i = 0; i < TD1.postInfo.length; i++) {
+        var thisPost = TD1.postInfo[i].dom;
+
+        // if this post has been truncated...
+        var displayedHeight = thisPost.height();
+        var actualHeight = thisPost.children( '.post_inner_td1' ).height();
+        if (actualHeight > displayedHeight) {
+
+            // display the gradient footer...
+            var gradientDiv = thisPost.children( '.truncated_post_gradient_div_td1' );
+            gradientDiv.css( 'display', 'block' );
+        }
+    }
+};
+
 
 // if on a narrow device (< 1280 pixels), show description under name; otherwise, description to the right of name...
 TD1.headerDescriptionAdjust = function() {
@@ -51,6 +102,7 @@ TD1.headerDescriptionAdjust = function() {
         }
 };
 
+
 // build basic post information...
 TD1.initPosts = function() {
 
@@ -65,7 +117,7 @@ TD1.initPosts = function() {
         map.images = [];
 
         // add the paragraph information to the map...
-        var contentParas = $( map.dom ).children( '.post_content_td1' ).children( 'p' );
+        var contentParas = $( map.dom).children( '.post_inner_td1' ).children( '.post_content_td1' ).children( 'p' );
         for (var p = 0; p < contentParas.length; p++)
             map.paragraphs[p] = $( contentParas[p] );
 
@@ -80,7 +132,7 @@ TD1.fixPostTitles = function() {
     for (var i = 0; i < TD1.postInfo.length; i++) {
 
         // get the post title span element...
-        var titleSpan = TD1.postInfo[i].dom.children( '.post_title_td1' ).filter( ':first' );
+        var titleSpan = TD1.postInfo[i].dom.children( '.post_inner_td1' ).children( '.post_title_td1' ).filter( ':first' );
 
         // fetch the HTML for the title, all nicely marked up...
         var fixedTitleHTML = titleSpan[0].innerHTML;
@@ -139,9 +191,6 @@ TD1.fixImage = function( post ) {
                 continue;
             }
 
-            // wrap a div around our image, so we can make a nice frame...
-            map.image.wrap( '<div class="thumb_frame"></div>' );
-
             // if we are floating left or right, and there's any text between the img and its container, move it left of the text...
             if ((map.position == '<') || (map.position == '>')) {
 
@@ -169,25 +218,23 @@ TD1.fixImage = function( post ) {
                 }
             }
 
-            // assign the right classes to our image and its wrapper...
+            // assign the right classes to our image...
             var classes;
             switch (map.thumbSize) {
                 case 's': classes = 'img_framed_td1 img_small_td1'; break;
                 case 'm': classes = 'img_framed_td1 img_medium_td1'; break;
                 case 'l': classes = 'img_framed_td1 img_large_td1'; break;
             }
-            map.image[0].className = classes;
-
             switch (map.position) {
-                case '>': classes = 'thumb_right_frame_td1'; break;
-                case '<': classes = 'thumb_left_frame_td1'; break;
-                case '!': classes = 'thumb_inline_frame_td1'; break;
+                case '>': classes += ' img_right_td1'; break;
+                case '<': classes += ' img_left_td1'; break;
+                case '!': classes += ' img_inline_td1'; break;
             }
-            $( map.image[0]).parent()[0].className = classes;
+            map.image[0].className = classes;
 
             // if we're inserting a float image, mark the parent paragraph as a float container...
             if ((map.position == '>') || (map.position == '<')) {
-                var parentPara = $( map.image[0]).parent().parent()[0];
+                var parentPara = $( map.image[0]).parent()[0];
                 var floatClass = (map.position == '>') ? 'float_right_cont_td1' : 'float_left_cont_td1';
                 parentPara.className = TD1.ensureClass( parentPara.className, floatClass );
             }
@@ -211,49 +258,36 @@ TD1.fixImage = function( post ) {
         var cols = TD1.sizeToColumns[targetSize];
 
         // build our thumbnail table into the DOM, appending it to the existing content...
-        var contentSpan = $( postMap.dom).children( '.post_content_td1' ).filter( ':first' );
-        contentSpan.append( '<table class="thumb_table"></table>')
-        var thumbTable = contentSpan.children().filter( ':last' );
-        thumbTable.append( '<tbody class="thumb_body"></tbody>')
-        var thumbTableBody = thumbTable.children().filter( ':last' );
-
-        // figure out how many rows we need...
-        var rowCount = 1 + Math.floor((tabled.length - 1) / cols);
-        for (var r = 0; r < rowCount; r++) {
-
-            // append our new row...
-            thumbTableBody.append( '<tr class="thumb_row"></tr>' )
-            var thumbRow = thumbTableBody.children().filter( ':last' );
-
-            // iterate over our row's columns...
-            for (var c = 0; c < cols; c++) {
-
-                // compute the image index...
-                var imgIndex = (r * cols) + c;
-
-                // if we're on the first row, and we're out of images, just bail out so we dont' get empty cells...
-                if ((imgIndex >= tabled.length) && (r == 0))
-                    break;
-
-                // append our new column...
-                thumbRow.append( '<td class="thumb_cell"></td>' );
-                var thumbCol = thumbRow.children().filter( ':last' );
-
-                // if we have any thumbnails left, append them into our column...
-                if (imgIndex < tabled.length) {
-                    var colImage = postMap.images[tabled[imgIndex]].image;
-                    switch (targetSize) {
-                        case 's': classes = 'img_small_td1'; break;
-                        case 'm': classes = 'img_medium_td1'; break;
-                        case 'l': classes = 'img_large_td1'; break;
-                    }
-                    colImage[0].className = classes;
-                    thumbCol.append( colImage );
-                }
-            }
-        }
+        var contentSpan = $( postMap.dom).children().children( '.post_content_td1' ).filter( ':first' );
+        var images = [];
+        for (var t = 0; t < tabled.length; t++)
+            images.push( postMap.images[tabled[t]].image );
+        TD1.buildThumbDiv( images, contentSpan, targetSize, cols );
     }
 };
+
+// inserts a div with the given number of columns of the given array of images of the given target size,
+// as the last child element of the given target element...
+TD1.buildThumbDiv = function( images, target, targetSize, cols ) {
+    target.append( '<div class="thumb_div"></div>')
+    var thumbDiv = target.children().filter( ':last' );
+
+    // iterate over our tabled images, appending them...
+    for (var i = 0; i < images.length; i++) {
+
+        // assign the right classes...
+        var classes = 'img_table_td1 ';
+        var colImage = images[i];
+        switch (targetSize) {
+            case 's': classes += 'img_small_td1'; break;
+            case 'm': classes += 'img_medium_td1'; break;
+            case 'l': classes += 'img_large_td1'; break;
+        }
+        colImage[0].className = classes;
+        thumbDiv.append( colImage );
+    }
+};
+
 
 // parses the given title, updates the given image information map, and returns the parsed title...
 // the title may contain the following directives to control the image's rendering, as the first characters of the title, terminated by '|':
@@ -320,6 +354,34 @@ TD1.ensureClass = function( currentClass, newClass ) {
     return classes.join( ' ' );
 };
 
+// adds the given class to the given target element's class attribute, if it wasn't already there...
+TD1.addClass = function( element, klass ) {
+    var e = $( element );
+    var classes = e[0].className.split( ' ' );
+    if (TD1.contains( classes, klass ))
+        return;
+
+    // the class isn't there, so add it...
+    classes.push( klass );
+    e[0].className = classes.join( ' ' );
+};
+
+// removes the given class from the given target element's class attribute, if it wasn't already there...
+TD1.removeClass = function( element, klass ) {
+    var e = $( element );
+    var classes = e[0].className.split( ' ' );
+    if (!TD1.contains( classes, klass ))
+        return;
+
+    // the class is there, so remove it...
+    for (var i = 0; i < classes.length; i++) {
+        if (classes[i] == klass) {
+            classes.splice( i, 1 );
+            break;
+        }
+    }
+    e[0].className = classes.join( ' ' );
+};
 
 // returns true if the given array has an element matching the given value...
 TD1.contains = function( arr, val ) {
@@ -328,3 +390,14 @@ TD1.contains = function( arr, val ) {
             return true;
     return false;
 };
+
+
+/*
+YouTube (iframe) examples:
+
+ The method optionally accepts a selector expression of the same type that we can pass to the $() function. If the selector is supplied, the elements will be filtered by testing whether they match it.Here's a YouTube video: <iframe width="200" height="113" src="//www.youtube.com/embed/GH68bSJXGE8?rel=0" frameborder="0" allowfullscreen></iframe>
+
+ <iframe width="200" height="113" src="//www.youtube.com/embed/GH68bSJXGE8?rel=0" frameborder="0" allowfullscreen></iframe>
+
+
+ */

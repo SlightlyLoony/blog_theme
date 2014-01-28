@@ -1,14 +1,51 @@
+@font-face {
+  font-family: 'icomoon';
+  src: url("../fonts/icomoon-selection/icomoon.eot");
+  src: url("../fonts/icomoon-selection/icomoon.eot?#iefix") format("embedded-opentype"), url("../fonts/icomoon-selection/icomoon.ttf") format("truetype"), url("../fonts/icomoon-selection/icomoon.woff") format("woff"), url("../fonts/icomoon-selection/icomoon.svg#icomoon") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+[class^="icon-"], [class*=" icon-"] {
+  font-family: 'icomoon';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  font-size: 75%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+.icon-down-arrow:before {
+  content: "\e656"; }
+
+.icon-up-arrow:before {
+  content: "\e652"; }
+
+.post_full_length_td1 {
+  max-height: none !important; }
+
 .post_td1 {
   color: #294027;
   font-family: "PT Serif", serif;
   font-size: 90%;
-  border-bottom: 1px solid #85b281; }
+  border-bottom: 1px solid #85b281;
+  max-height: 12em;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 1em; }
   .post_td1 .post_title_td1 {
     display: none; }
+  .post_td1 .post_content_td1 p {
+    margin-top: 1em;
+    margin-bottom: 0; }
   .post_td1 .post_content_td1 .float_right_cont_td1 {
     clear: right; }
   .post_td1 .post_content_td1 .float_left_cont_td1 {
     clear: left; }
+  .post_td1 .post_content_td1 .float_both_cont_td1 {
+    clear: both; }
   .post_td1 .post_content_td1 a:link, .post_td1 .post_content_td1 a:visited {
     color: #294027;
     text-decoration: none;
@@ -28,37 +65,30 @@
       color: #a05900;
       text-decoration: none;
       border-bottom: 1px solid #a05900; }
-  .post_td1 .post_content_td1 img[class=''] {
-    max-width: 100px;
-    display: none; }
-  .post_td1 .post_content_td1 .thumb_left_frame_td1 {
+  .post_td1 .post_content_td1 .img_left_td1 {
     float: left;
-    display: block;
+    margin-right: 0.3em; }
+  .post_td1 .post_content_td1 .img_right_td1 {
+    float: right;
+    margin-left: 5px; }
+  .post_td1 .post_content_td1 .img_inline_td1 {
+    display: inline-block;
+    vertical-align: text-bottom;
+    margin: 0.3em; }
+  .post_td1 .post_content_td1 .img_table_td1 {
+    display: inline-block;
+    vertical-align: text-bottom;
     margin-right: 0.3em;
     margin-bottom: 0.3em;
-    margin-top: 0.3em;
-    background-color: #f2f7f1;
-    padding: 0.3em;
     border: 1px solid #294027;
     border-radius: 6px; }
-  .post_td1 .post_content_td1 .thumb_right_frame_td1 {
-    float: right;
-    display: block;
-    margin-left: 5px;
-    margin-bottom: 0.3em;
-    margin-top: 0.3em;
-    background-color: #f2f7f1;
-    padding: 0.3em;
-    border: 1px solid #294027;
-    border-radius: 6px; }
-  .post_td1 .post_content_td1 .thumb_inline_frame_td1 {
-    display: inline-block;
-    vertical-align: text-top;
-    margin: 0.3em;
-    background-color: #f2f7f1;
-    padding: 0.3em;
-    border: 1px solid #294027;
-    border-radius: 6px; }
+  .post_td1 .thumb_div {
+    padding-top: 0.3em;
+    padding-left: 0.3em;
+    text-align: center;
+    width: auto;
+    margin-left: auto;
+    margin-right: auto; }
   .post_td1 .img_small_td1 {
     max-width: 10em; }
   .post_td1 .img_medium_td1 {
@@ -67,6 +97,7 @@
     max-width: 22.5em; }
   .post_td1 .img_framed_td1 {
     border: 1px solid #294027;
+    border-radius: 6px;
     display: block; }
   .post_td1 .post_details_td1 {
     font-family: "PT Sans", sans-serif;
@@ -82,36 +113,56 @@
     .post_td1 .post_details_td1 a:hover, .post_td1 .post_details_td1 a:active {
       color: #d37600;
       text-decoration: underline; }
-  .post_td1 .thumb_table {
-    background-color: #f2f7f1;
-    margin-right: auto;
+
+.truncated_post_gradient_div_td1 {
+  display: none;
+  z-index: 2;
+  position: absolute;
+  width: 100%;
+  top: 4.8em;
+  height: 7.2em;
+  background: -moz-linear-gradient(bottom, #fdfdfc 0%, rgba(253, 253, 252, 0) 100%);
+  background: -webkit-gradient(linear, bottom, top, color-stop(0%, #fdfdfc), color-stop(100%, rgba(253, 253, 252, 0)));
+  background: -webkit-linear-gradient(bottom, #fdfdfc 0%, rgba(253, 253, 252, 0) 100%);
+  background: -o-linear-gradient(bottom, #fdfdfc 0%, rgba(253, 253, 252, 0) 100%);
+  background: -ms-linear-gradient(bottom, #fdfdfc 0%, rgba(253, 253, 252, 0) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00FEFEFE', endColorstr='#FEFEFE', GradientType=0 );
+  background: linear-gradient(bottom, #fdfdfc 0%, rgba(253, 253, 252, 0) 100%); }
+  .truncated_post_gradient_div_td1 .more_td1 {
     margin-left: auto;
-    border: 1px solid #294027;
-    border-spacing: 0.3em;
-    border-collapse: separate;
-    border-radius: 6px;
-    clear: both; }
-    .post_td1 .thumb_table .thumb_cell {
-      vertical-align: bottom; }
-    .post_td1 .thumb_table img {
+    margin-right: auto;
+    bottom: 5px;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    font-family: "PT Sans", sans-serif;
+    cursor: s-resize; }
+    .truncated_post_gradient_div_td1 .more_td1 .more_button_td1 {
+      padding-left: 4px;
+      padding-right: 4px;
+      padding-top: 4px;
+      padding-bottom: 4px;
+      background-color: #e1ece0;
       border: 1px solid #294027;
-      display: block; }
+      border-radius: 6px;
+      font-size: 80%; }
 
-/*
-From Ricochet: provides gradient at bottom of truncated posts..
-
-display: none;
-z-index: 2;
-position: relative;
-height: 50px;
-margin-top: -50px;
-background: -moz-linear-gradient( bottom, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 100% );
-background: -webkit-gradient( linear, bottom, top, color-stop(0%, rgb(255, 255, 255)), color-stop(100%, rgba(255, 255, 255, 0)) );
-background: -webkit-linear-gradient( bottom, rgb(255,255,255) 0%, rgba(255, 255, 255, 0) 100% );
-background: -o-linear-gradient( bottom, rgb(255,255,255) 0%, rgba(255, 255, 255, 0) 100% );
-background: -ms-linear-gradient( bottom, rgb(255,255,255) 0%, rgba(255, 255, 255, 0) 100% );
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00FEFEFE', endColorstr='#FEFEFE', GradientType=0 );
-background: linear-gradient( bottom, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 100% );
-}
-
-*/
+.less_td1 {
+  display: none;
+  margin-left: auto;
+  margin-right: auto;
+  bottom: 5px;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  font-family: "PT Sans", sans-serif;
+  cursor: n-resize; }
+  .less_td1 .less_button_td1 {
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    background-color: #e1ece0;
+    border: 1px solid #294027;
+    border-radius: 6px;
+    font-size: 80%; }

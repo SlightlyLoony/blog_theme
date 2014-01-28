@@ -16,23 +16,71 @@ $post-details-link-color: darken( $comp-color, 40% );
 $post-font: 'PT Serif', serif;
 $post-details-font: 'PT Sans', sans-serif;
 $post-border-color: darken( $base-color, 30% );
+$button-color: $base-color;
 $thumb-background: lighten( $base-color, 5.5% );
 $thumb-padding: $base-size * 0.3;
+$post-truncated-height: $base-size * 12;
+$post-gradient-height: $post-truncated-height * 0.6;
+$post-gradient-top: $post-truncated-height - $post-gradient-height;
+
+// magic sauce for icomoon fonts...
+@font-face {
+  font-family: 'icomoon';
+  src: url("../fonts/icomoon-selection/icomoon.eot");
+  src:
+    url("../fonts/icomoon-selection/icomoon.eot?#iefix")  format('embedded-opentype'),
+    url("../fonts/icomoon-selection/icomoon.ttf")         format('truetype'),
+    url("../fonts/icomoon-selection/icomoon.woff")        format('woff'),
+    url("../fonts/icomoon-selection/icomoon.svg#icomoon") format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  font-family: 'icomoon';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  font-size: 75%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// icomoon classes, each of which will insert a single character...
+.icon-down-arrow:before { content:"\e656" }
+.icon-up-arrow:before   { content:"\e652" }
 
 // this is very strange, but it fixes a bug in Safari...
 // see: http://stackoverflow.com/questions/6655364/css-attribute-selector-descendant-gives-a-bug-in-webkit
 [class]{}
+
+.post_full_length_td1 {
+  max-height: none !important;
+}
 
 .post_td1 {
   color: $post-text-color;
   font-family: $post-font;
   font-size: 90%;
   border-bottom: 1px solid $post-border-color;
+  max-height: $post-truncated-height;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: $base-size;
+  // transition: height 1s linear;  // kill for now, until I figure out how to make the buttons work correctly, and get rid of the delay...
 
   .post_title_td1 {
     display: none;
   }
   .post_content_td1 {
+
+    p {
+      margin-top: $base-size;
+      margin-bottom: 0;
+    }
 
     .float_right_cont_td1 {
       clear: right;
@@ -40,6 +88,10 @@ $thumb-padding: $base-size * 0.3;
 
     .float_left_cont_td1 {
       clear: left;
+    }
+
+    .float_both_cont_td1 {
+      clear: both;
     }
 
     a:link, a:visited {
@@ -71,44 +123,39 @@ $thumb-padding: $base-size * 0.3;
       }
     }
 
-    img[class=''] {
-      max-width: 100px;
-      display: none;
+    .img_left_td1 {
+      float: left;
+      margin-right: $thumb-padding;
     }
 
-    .thumb_left_frame_td1 {
-      float: left;
-      display: block;
+    .img_right_td1 {
+      float: right;
+      margin-left: 5px;
+    }
+
+    .img_inline_td1 {
+      display: inline-block;
+      vertical-align: text-bottom;
+      margin: $thumb-padding;
+    }
+
+    .img_table_td1 {
+      display: inline-block;
+      vertical-align: text-bottom;
       margin-right: $thumb-padding;
       margin-bottom: $thumb-padding;
-      margin-top: $thumb-padding;
-      background-color: $thumb-background;
-      padding: $thumb-padding;
       border: 1px solid $post-text-color;
       border-radius: 6px;
     }
+  }
 
-    .thumb_right_frame_td1 {
-      float: right;
-      display: block;
-      margin-left: 5px;
-      margin-bottom: $thumb-padding;
-      margin-top: $thumb-padding;
-      background-color: $thumb-background;
-      padding: $thumb-padding;
-      border: 1px solid $post-text-color;
-      border-radius: 6px;
-    }
-
-    .thumb_inline_frame_td1 {
-      display: inline-block;
-      vertical-align: text-top;
-      margin: $thumb-padding;
-      background-color: $thumb-background;
-      padding: $thumb-padding;
-      border: 1px solid $post-text-color;
-      border-radius: 6px;
-    }
+  .thumb_div {
+    padding-top: $thumb-padding;
+    padding-left: $thumb-padding;
+    text-align: center;
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .img_small_td1 {
@@ -125,6 +172,7 @@ $thumb-padding: $base-size * 0.3;
 
   .img_framed_td1 {
     border: 1px solid $post-text-color;
+    border-radius: 6px;
     display: block;
   }
 
@@ -147,43 +195,67 @@ $thumb-padding: $base-size * 0.3;
       text-decoration: underline;
     }
   }
+}
 
-  .thumb_table {
-    background-color: $thumb-background;
-    margin-right: auto;
+.truncated_post_gradient_div_td1 {
+  display: none;
+  z-index: 2;
+  position: absolute;
+  width: 100%;
+  top: $post-gradient-top;
+  height: $post-gradient-height;
+
+  // background ##fdfdfc = rgb( 253, 253, 252 )
+  background: -moz-linear-gradient( bottom, rgb( 253, 253, 252 ) 0%, rgba( 253, 253, 252, 0 ) 100% );
+  background: -webkit-gradient( linear, bottom, top, color-stop(0%, rgb(253, 253, 252)), color-stop(100%, rgba(253, 253, 252, 0)) );
+  background: -webkit-linear-gradient( bottom, rgb(253, 253, 252) 0%, rgba(253, 253, 252, 0) 100% );
+  background: -o-linear-gradient( bottom, rgb(253, 253, 252) 0%, rgba(253, 253, 252, 0) 100% );
+  background: -ms-linear-gradient( bottom, rgb(253, 253, 252) 0%, rgba(253, 253, 252, 0) 100% );
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00FEFEFE', endColorstr='#FEFEFE', GradientType=0 );
+  background: linear-gradient( bottom, rgb(253, 253, 252) 0%, rgba(253, 253, 252, 0) 100% );
+
+  .more_td1 {
     margin-left: auto;
-    border: 1px solid $post-text-color;
-    border-spacing: $thumb-padding;
-    border-collapse: separate;
-    border-radius: 6px;
-    clear:both;
+    margin-right: auto;
+    bottom: 5px;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    font-family: "PT Sans", sans-serif;
+    cursor: s-resize;
 
-    .thumb_cell {
-      vertical-align: bottom;
-    }
-
-    img {
+    .more_button_td1 {
+      padding-left: 4px;
+      padding-right: 4px;
+      padding-top: 4px;
+      padding-bottom: 4px;
+      background-color: $button-color;
       border: 1px solid $post-text-color;
-      display: block;  // prevents extra space between rows (for text descenders)...
+      border-radius: 6px;
+      font-size: 80%;
     }
   }
 }
 
-/*
-From Ricochet: provides gradient at bottom of truncated posts...
+.less_td1 {
+  display: none;
+  margin-left: auto;
+  margin-right: auto;
+  bottom: 5px;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  font-family: "PT Sans", sans-serif;
+  cursor: n-resize;
 
-display: none;
-z-index: 2;
-position: relative;
-height: 50px;
-margin-top: -50px;
-background: -moz-linear-gradient( bottom, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 100% );
-background: -webkit-gradient( linear, bottom, top, color-stop(0%, rgb(255, 255, 255)), color-stop(100%, rgba(255, 255, 255, 0)) );
-background: -webkit-linear-gradient( bottom, rgb(255,255,255) 0%, rgba(255, 255, 255, 0) 100% );
-background: -o-linear-gradient( bottom, rgb(255,255,255) 0%, rgba(255, 255, 255, 0) 100% );
-background: -ms-linear-gradient( bottom, rgb(255,255,255) 0%, rgba(255, 255, 255, 0) 100% );
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00FEFEFE', endColorstr='#FEFEFE', GradientType=0 );
-background: linear-gradient( bottom, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 100% );
+  .less_button_td1 {
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    background-color: $button-color;
+    border: 1px solid $post-text-color;
+    border-radius: 6px;
+    font-size: 80%;
+  }
 }
-
-*/

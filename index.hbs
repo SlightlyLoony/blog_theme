@@ -13,26 +13,35 @@
         {{! The Index articles loop}}
         {{#foreach posts}}
             <article class="post_td1" role="article" itemscope itemtype="http://schema.org/Article">
+                <div class="truncated_post_gradient_div_td1">
+                    <div class="more_td1">
+                        <span class="more_button_td1"><span class="icon-down-arrow"></span><span class="icon-down-arrow"></span><span class="icon-down-arrow"></span>&nbsp;&nbsp;More&nbsp;&nbsp;<span class="icon-down-arrow"></span><span class="icon-down-arrow"></span><span class="icon-down-arrow"></span></span>
+                    </div>
+                </div>
+                <div class="less_td1">
+                    <span class="less_button_td1"><span class="icon-up-arrow"></span><span class="icon-up-arrow"></span><span class="icon-up-arrow"></span>&nbsp;&nbsp;Less&nbsp;&nbsp;<span class="icon-up-arrow"></span><span class="icon-up-arrow"></span><span class="icon-up-arrow"></span></span>
+                </div>
+                <div class="post_inner_td1">
+                    <span class="post_title_td1"><span class="post_fixed_title_td1"><a href="{{{url}}}" rel="bookmark">{{title}}</a></span></span>
 
-                <span class="post_title_td1"><span class="post_fixed_title_td1"><a href="{{{url}}}" rel="bookmark">{{title}}</a></span></span>
+                    <span class="post_content_td1">
+                        {{content}}
+                    </span>
 
-                <span class="post_content_td1">
-                    {{content}}
-                </span>
-
-                {{!-- Posted by (author) on Jan 23, 2014 6:35pm permalink Tags: --}}
-                <div class="post_details_td1">
-                    Posted by {{author.name}} on
-                    <time class="date_td1" datetime="{{date format='dddd DD MMM YYYY'}}" itemprop="datePublished">
-                        {{date format='MMM D, YYYY @ h:mma'}}
-                    </time>
-                    &nbsp;&nbsp;<a href="{{{url}}}" rel="bookmark">Permalink</a>
-                    {{#if tags}}
-                        &nbsp;&nbsp;Tags:
-                        <span class="icon-tag">
-                            {{tags separator=", "}}
-                        </span>
-                    {{/if}}
+                    {{!-- Posted by (author) on Jan 23, 2014 6:35pm permalink Tags: --}}
+                    <div class="post_details_td1">
+                        Posted by {{author.name}} on
+                        <time class="date_td1" datetime="{{date format='dddd DD MMM YYYY'}}" itemprop="datePublished">
+                            {{date format='MMM D, YYYY @ h:mma'}}
+                        </time>
+                        &nbsp;&nbsp;<a href="{{{url}}}" rel="bookmark">Permalink</a>
+                        {{#if tags}}
+                            &nbsp;&nbsp;Tags:
+                            <span class="icon-tag">
+                                {{tags separator=", "}}
+                            </span>
+                        {{/if}}
+                    </div>
                 </div>
             </article>
         {{/foreach}}

@@ -8,8 +8,7 @@
 
         {{! ensure that images within posts don't display until we tell them to }}
         <style>
-            [class]{}  {{! fixes strange Safari bug }}
-            .post_content_td1 img[class=''] { max-width: 100px; display: none; }
+            .post_content_td1 img { max-width: 100px; display: none; }
         </style>
 
         {{! Page Meta }}
@@ -56,18 +55,10 @@
         {{! scripts that depend on jQuery must go here... }}
         <script>
 
-            // event hooks for DOM ready and document fully loaded...
-            $( document ).ready( function() {
-                TD1.readyDispatcher();
-            } );
-
-            $( window ).load( function() {
-                TD1.loadDispatcher();
-            } );
-
-            $( window ).resize( function() {
-                TD1.resizeDispatcher();
-            } );
+            // event hooks for DOM ready, resize, and document fully loaded...
+            $( document ).ready( function() { TD1.readyDispatcher();  } );
+            $( window ).load( function()    { TD1.loadDispatcher();   } );
+            $( window ).resize( function()  { TD1.resizeDispatcher(); } );
         </script>
     </body>
 </html>
