@@ -31,14 +31,14 @@
   font-family: "PT Serif", serif;
   font-size: 90%;
   border-bottom: 1px solid #85b281;
-  max-height: 12em;
+  max-height: 192px;
   overflow: hidden;
   position: relative;
-  margin-bottom: 1em; }
+  margin-bottom: 16px; }
   .post_td1 .post_title_td1 {
     display: none; }
   .post_td1 .post_content_td1 p {
-    margin-top: 1em;
+    margin-top: 16px;
     margin-bottom: 0; }
   .post_td1 .post_content_td1 .float_right_cont_td1 {
     clear: right; }
@@ -67,34 +67,34 @@
       border-bottom: 1px solid #a05900; }
   .post_td1 .post_content_td1 .img_left_td1 {
     float: left;
-    margin-right: 0.3em; }
+    margin-right: 4.8px; }
   .post_td1 .post_content_td1 .img_right_td1 {
     float: right;
     margin-left: 5px; }
   .post_td1 .post_content_td1 .img_inline_td1 {
     display: inline-block;
     vertical-align: text-bottom;
-    margin: 0.3em; }
+    margin: 4.8px; }
   .post_td1 .post_content_td1 .img_table_td1 {
     display: inline-block;
     vertical-align: text-bottom;
-    margin-right: 0.3em;
-    margin-bottom: 0.3em;
+    margin-right: 4.8px;
+    margin-bottom: 4.8px;
     border: 1px solid #294027;
     border-radius: 6px; }
   .post_td1 .thumb_div {
-    padding-top: 0.3em;
-    padding-left: 0.3em;
+    padding-top: 4.8px;
+    padding-left: 4.8px;
     text-align: center;
     width: auto;
     margin-left: auto;
     margin-right: auto; }
   .post_td1 .img_small_td1 {
-    max-width: 10em; }
+    max-width: 160px; }
   .post_td1 .img_medium_td1 {
-    max-width: 15em; }
+    max-width: 240px; }
   .post_td1 .img_large_td1 {
-    max-width: 22.5em; }
+    max-width: 360px; }
   .post_td1 .img_framed_td1 {
     border: 1px solid #294027;
     border-radius: 6px;
@@ -106,7 +106,7 @@
     color: #527f4e;
     text-align: right;
     clear: both;
-    margin-top: 0.5em; }
+    margin-top: 8px; }
     .post_td1 .post_details_td1 a:link, .post_td1 .post_details_td1 a:visited {
       color: #527f4e;
       text-decoration: none; }
@@ -119,8 +119,8 @@
   z-index: 2;
   position: absolute;
   width: 100%;
-  top: 4.8em;
-  height: 7.2em;
+  top: 76.8px;
+  height: 115.2px;
   background: -moz-linear-gradient(bottom, #fdfdfc 0%, rgba(253, 253, 252, 0) 100%);
   background: -webkit-gradient(linear, bottom, top, color-stop(0%, #fdfdfc), color-stop(100%, rgba(253, 253, 252, 0)));
   background: -webkit-linear-gradient(bottom, #fdfdfc 0%, rgba(253, 253, 252, 0) 100%);

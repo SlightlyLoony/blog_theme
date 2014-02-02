@@ -3,7 +3,7 @@ var TD1 = {};
 
 // important constants...
 TD1.headerTrigger = 1000;   // in pixels, viewport width at which blog description flips from right to under the blog name...
-TD1.sizeToColumns = {s: 4, m: 3, l: 2};  // number of columns in thumbnail table for the possible thumbnail sizes...
+TD1.iframeSize = { s: 200, m: 300, l: 450 }; // size of predefined iframe (video) widths, in pixels...
 
 // post information tree...
 //   each element of the array is an object (map) containing information about a single post, in the order that they appear on the page
@@ -17,6 +17,9 @@ TD1.sizeToColumns = {s: 4, m: 3, l: 2};  // number of columns in thumbnail table
 //         title: actual title with any directives removed
 //         paragraph: number of content paragraph that contains it
 TD1.postInfo = [];
+
+// height of a truncated post (set by clicking "more")...
+TD1.truncatedPostHeight = 0;
 
 // invoked when document loads; drives all other document loaded behavior...
 TD1.loadDispatcher = function() {
@@ -35,6 +38,8 @@ TD1.readyDispatcher = function() {
     TD1.fixPostTitles();
     TD1.fixContent();
     TD1.initializeTruncation();
+
+    // set up event listeners...
     $( '.more_button_td1').click( function( event ) { TD1.moreClick( event ); } );
     $( '.less_button_td1').click( function( event ) { TD1.lessClick( event ); } );
 };
@@ -43,28 +48,51 @@ TD1.readyDispatcher = function() {
 // invoked when user clicks on a "more" button...
 TD1.moreClick = function( event ) {
 
+    // some basics...
+    var truncatedGradient = $( event.target).parent().parent();
+    var thisPost = truncatedGradient.parent();
+    var innerPost = thisPost.children( '.post_inner_td1');
+
     // first kill the gradient overlay, which contains the "more" button...
-    $( event.target).parent().parent().css( 'display', 'none' );
+    truncatedGradient.css( 'display', 'none' );
 
-    // then stop truncating the post content...
-    TD1.addClass( $( event.target ).parent().parent().parent(), 'post_full_length_td1' );
+    // animate exposing the whole post...
+    TD1.truncatedPostHeight = parseFloat( thisPost.css( 'max-height' ) );
+    var targetMaxHeight = innerPost.height();
+    var ms = (targetMaxHeight - TD1.truncatedPostHeight) / 0.5;
+    var properties = { 'max-height' : targetMaxHeight };
+    thisPost.animate( properties, ms, 'swing', displayLessButton );
 
-    // finally, display the "less" button...
-    $( event.target).parent().parent().parent().children( '.less_td1').css( 'display', 'block' );
+    // invoked by animator...
+    function displayLessButton() {
+
+        // finally, display the "less" button...
+        thisPost.children( '.less_td1' ).css( 'display', 'block' );
+    }
 };
 
 
 // invoked when user clicks on a "less" button...
 TD1.lessClick = function( event ) {
 
+    // some basics...
+    var lessButton = $( event.target).parent();
+    var thisPost = lessButton.parent();
+
     // first kill the "less" button...
-    $( event.target).parent().css( 'display', 'none' );
+    lessButton.css( 'display', 'none' );
 
-    // then set the max-height back to where it was...
-    TD1.removeClass( $( event.target ).parent().parent(), 'post_full_length_td1' );
+    // animate closing the post back to truncated state...
+    var properties = { 'max-height': TD1.truncatedPostHeight };
+    var ms = (thisPost.height() - TD1.truncatedPostHeight) / 0.5;
+    thisPost.animate( properties, ms, 'swing', displayMoreButton );
 
-    // finally, enable the "more" button...
-    $( event.target ).parent().parent().children( '.truncated_post_gradient_div_td1').css( 'display', 'block' );
+    // invoked by animator...
+    function displayMoreButton() {
+
+        // finally, enable the "more" button...
+        thisPost.children( '.truncated_post_gradient_div_td1' ).css( 'display', 'block' );
+    }
 };
 
 
@@ -157,12 +185,52 @@ TD1.fixContent = function() {
     // iterate over the posts on the page...
     for (var i = 0; i < TD1.postInfo.length; i++) {
 
-        TD1.fixImage( i );
+        TD1.fixImages( i );
+        TD1.fixIFrames( i );
     }
 };
 
+
+// fix iframes (generally videos) within the given post...
+TD1.fixIFrames = function( post ) {
+
+    // grab our map of post information...
+    var postMap = TD1.postInfo[post];
+
+    // iterate over all our iframes in the post...
+    var iframes = postMap.dom.find( 'iframe' );
+    for (var i = 0; i < iframes.length; i++) {
+        thisIframe = iframes[i];
+
+        // get the source settings...
+        var width = thisIframe.width - 0;
+        var height = thisIframe.height - 0;
+        var params = thisIframe.attributes.td1;
+        params = params ? params : '';  // ensure a string...
+
+        // parse any size and placement information included...
+        var sizeSpec = 's';
+        var positionSpec = '>';
+        for (var p = 0; p < params.length; p++) {
+            var c = params.charAt( p );
+            if ('sml'.indexOf( c ) >= 0) sizeSpec = c;
+            if ('<!>'.indexOf( c ) >= 0) positionSpec = c;
+        }
+
+        // figure out our new dimensions...
+        var heightToWidth = height / width;
+        var newWidth = TD1.iframeSize[sizeSpec];
+        var newHeight = newWidth * heightToWidth;
+
+        // set our new dimensions...
+        thisIframe.width = newWidth;
+        thisIframe.height = newHeight;
+    }
+};
+
+
 // fixes images within the given post...
-TD1.fixImage = function( post ) {
+TD1.fixImages = function( post ) {
 
     // grab our map of post information...
     var postMap = TD1.postInfo[post];
@@ -246,30 +314,27 @@ TD1.fixImage = function( post ) {
 
         // iterate over the tabled items find the biggest size specification...
         var targetSize = 's';
-        for (var i = 0; i < tabled.length; i++) {
-            var thisSize = postMap.images[tabled[i]].thumbSize;
+        for (var j = 0; j < tabled.length; j++) {
+            var thisSize = postMap.images[tabled[j]].thumbSize;
             if ((targetSize == 's') && (thisSize != 's'))
                 targetSize = thisSize;
             else if ((targetSize == 'm') && (thisSize == 'l'))
                 targetSize = 'l';
         }
 
-        // figure the number of columns to use...
-        var cols = TD1.sizeToColumns[targetSize];
-
         // build our thumbnail table into the DOM, appending it to the existing content...
         var contentSpan = $( postMap.dom).children().children( '.post_content_td1' ).filter( ':first' );
         var images = [];
         for (var t = 0; t < tabled.length; t++)
             images.push( postMap.images[tabled[t]].image );
-        TD1.buildThumbDiv( images, contentSpan, targetSize, cols );
+        TD1.buildThumbDiv( images, contentSpan, targetSize );
     }
 };
 
 // inserts a div with the given number of columns of the given array of images of the given target size,
 // as the last child element of the given target element...
-TD1.buildThumbDiv = function( images, target, targetSize, cols ) {
-    target.append( '<div class="thumb_div"></div>')
+TD1.buildThumbDiv = function( images, target, targetSize ) {
+    target.append( '<div class="thumb_div"></div>');
     var thumbDiv = target.children().filter( ':last' );
 
     // iterate over our tabled images, appending them...

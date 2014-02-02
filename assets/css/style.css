@@ -1,6 +1,6 @@
 body {
   background-color: #fdfdfc;
-  font-size: 1em; }
+  font-size: 16px; }
 
 .blog_header_td1 {
   color: #335031;
@@ -33,20 +33,20 @@ body {
       font-size: 350%;
       display: inline-block;
       width: auto;
-      padding: 0.25em;
+      padding: 4px;
       white-space: nowrap; }
     .blog_header_td1 .blog_header_inner_td1 .blog_description_wide_container_td1 {
       display: none; }
       .blog_header_td1 .blog_header_inner_td1 .blog_description_wide_container_td1 .blog_description_td1 {
         font-family: "Finger Paint", sans-serif;
         font-size: 70%;
-        padding: 0.25em; }
+        padding: 4px; }
     .blog_header_td1 .blog_header_inner_td1 .blog_description_narrow_container_td1 {
       display: none; }
       .blog_header_td1 .blog_header_inner_td1 .blog_description_narrow_container_td1 .blog_description_td1 {
         font-family: "Finger Paint", sans-serif;
         font-size: 70%;
-        padding: 0.25em; }
+        padding: 4px; }
 
 .index_td1 {
   margin-left: auto;
