@@ -3,7 +3,9 @@ var TD1 = {};
 
 // important constants...
 TD1.headerTrigger = 1000;   // in pixels, viewport width at which blog description flips from right to under the blog name...
-TD1.iframeSize = { s: 200, m: 300, l: 450 }; // size of predefined iframe (video) widths, in pixels...
+TD1.positionClasses = { '<': 'img_left_td1', '>': 'img_right_td1', '!': 'img_inline_td1' }; // position codes -> position classes...
+TD1.sizeClasses = { s: 'img_small_td1', m: 'img_medium_td1', l: 'img_large_td1' };  // size codes -> size classes...
+
 
 // post information tree...
 //   each element of the array is an object (map) containing information about a single post, in the order that they appear on the page
@@ -21,6 +23,9 @@ TD1.postInfo = [];
 // height of a truncated post (set by clicking "more")...
 TD1.truncatedPostHeight = 0;
 
+// array of thumbs (per post)...
+TD1.thumbs = [];
+
 // invoked when document loads; drives all other document loaded behavior...
 TD1.loadDispatcher = function() {
 };
@@ -33,6 +38,8 @@ TD1.resizeDispatcher = function() {
 // invoked when DOM is ready; drives all other DOM ready behavior...
 TD1.readyDispatcher = function() {
     console.log( 'jQuery version: ' + $.fn.jquery );
+    var walker = new TD1.Walker();
+    walker.walk( $( '#index_td1') );
     TD1.initPosts();
     TD1.headerDescriptionAdjust();
     TD1.fixPostTitles();
@@ -186,7 +193,7 @@ TD1.fixContent = function() {
     for (var i = 0; i < TD1.postInfo.length; i++) {
 
         TD1.fixImages( i );
-        TD1.fixIFrames( i );
+        //TD1.fixIFrames( i );
     }
 };
 
@@ -200,12 +207,12 @@ TD1.fixIFrames = function( post ) {
     // iterate over all our iframes in the post...
     var iframes = postMap.dom.find( 'iframe' );
     for (var i = 0; i < iframes.length; i++) {
-        thisIframe = iframes[i];
+        var thisIframe = iframes[i];
 
         // get the source settings...
         var width = thisIframe.width - 0;
         var height = thisIframe.height - 0;
-        var params = thisIframe.attributes.td1;
+        var params = thisIframe.getAttribute( 'td1' );
         params = params ? params : '';  // ensure a string...
 
         // parse any size and placement information included...
@@ -225,6 +232,15 @@ TD1.fixIFrames = function( post ) {
         // set our new dimensions...
         thisIframe.width = newWidth;
         thisIframe.height = newHeight;
+
+        // now set the position according to the spec...
+        var posClass;
+        switch (positionSpec) {
+            case '<': posClass = 'img_left_td1'; break;
+            case '>': posClass = 'img_right_td1'; break;
+            case '!': posClass = 'img_inline_td1'; break;
+        }
+        thisIframe.className = posClass;
     }
 };
 
@@ -310,47 +326,25 @@ TD1.fixImages = function( post ) {
     }
 
     // if we have any tabled images, emit them...
-    if (tabled.length > 0) {
-
-        // iterate over the tabled items find the biggest size specification...
-        var targetSize = 's';
-        for (var j = 0; j < tabled.length; j++) {
-            var thisSize = postMap.images[tabled[j]].thumbSize;
-            if ((targetSize == 's') && (thisSize != 's'))
-                targetSize = thisSize;
-            else if ((targetSize == 'm') && (thisSize == 'l'))
-                targetSize = 'l';
-        }
-
-        // build our thumbnail table into the DOM, appending it to the existing content...
-        var contentSpan = $( postMap.dom).children().children( '.post_content_td1' ).filter( ':first' );
-        var images = [];
-        for (var t = 0; t < tabled.length; t++)
-            images.push( postMap.images[tabled[t]].image );
-        TD1.buildThumbDiv( images, contentSpan, targetSize );
-    }
-};
-
-// inserts a div with the given number of columns of the given array of images of the given target size,
-// as the last child element of the given target element...
-TD1.buildThumbDiv = function( images, target, targetSize ) {
-    target.append( '<div class="thumb_div"></div>');
-    var thumbDiv = target.children().filter( ':last' );
-
-    // iterate over our tabled images, appending them...
-    for (var i = 0; i < images.length; i++) {
-
-        // assign the right classes...
-        var classes = 'img_table_td1 ';
-        var colImage = images[i];
-        switch (targetSize) {
-            case 's': classes += 'img_small_td1'; break;
-            case 'm': classes += 'img_medium_td1'; break;
-            case 'l': classes += 'img_large_td1'; break;
-        }
-        colImage[0].className = classes;
-        thumbDiv.append( colImage );
-    }
+//    if (tabled.length > 0) {
+//
+//        // iterate over the tabled items find the biggest size specification...
+//        var targetSize = 's';
+//        for (var j = 0; j < tabled.length; j++) {
+//            var thisSize = postMap.images[tabled[j]].thumbSize;
+//            if ((targetSize == 's') && (thisSize != 's'))
+//                targetSize = thisSize;
+//            else if ((targetSize == 'm') && (thisSize == 'l'))
+//                targetSize = 'l';
+//        }
+//
+//        // build our thumbnail table into the DOM, appending it to the existing content...
+//        var contentSpan = $( postMap.dom).children().children( '.post_content_td1' ).filter( ':first' );
+//        var images = [];
+//        for (var t = 0; t < tabled.length; t++)
+//            images.push( postMap.images[tabled[t]].image );
+//        TD1.buildThumbDiv( images, contentSpan, targetSize );
+//    }
 };
 
 
@@ -428,7 +422,7 @@ TD1.addClass = function( element, klass ) {
 
     // the class isn't there, so add it...
     classes.push( klass );
-    e[0].className = classes.join( ' ' );
+    e[0].className = classes.join( ' ').trim();
 };
 
 // removes the given class from the given target element's class attribute, if it wasn't already there...
@@ -454,6 +448,179 @@ TD1.contains = function( arr, val ) {
         if (val == arr[i])
             return true;
     return false;
+};
+
+
+
+// DOM walker and object handler...
+TD1.Walker = function() {
+    this.handlers = {};
+    this.addHandler( TD1.getIframeHandler() );
+    this.addHandler( TD1.getDivHandler() );
+};
+
+
+TD1.Walker.prototype.addHandler = function( handler ) {
+    this.handlers[ handler.tag ] = handler;
+};
+
+
+// walk the DOM tree below the given element, looking for tags to handle...
+TD1.Walker.prototype.walk = function( element ) {
+    var e = $( element );
+
+    // if we need to handle this tag, do so...
+    var tag = e[0].tagName.toLowerCase();
+    var handler = this.handlers[tag];
+    if (handler)
+        handler.handle( e[0] );
+
+    // walk the kids...
+    var kids = e.children();
+    for (var i = 0; i < kids.length; i++)
+        this.walk( kids[i] );
+};
+
+
+// returns an iframe handler instance...
+TD1.getIframeHandler = function() {
+    var handler = {};
+    handler.tag = 'iframe';
+    handler.handle = function( element ) {
+
+        var thisIframe = $( element )[0];
+        var meta = TD1.parseMeta( thisIframe.getAttribute( 'td1' ) );
+
+        TD1.ensureParagraph( thisIframe );
+        TD1.setPosition( element, meta );
+        TD1.setSize( element, meta );
+    };
+    return handler;
+};
+
+
+// returns a div handler instance...
+TD1.getDivHandler = function() {
+    var handler = {};
+    handler.tag = 'div';
+    handler.handle = function( element ) {
+
+        var thisDiv = $( element )[0];
+
+        // if we're starting a new post, clear the thumbs array...
+        if (thisDiv.className == 'post_inner_td1' ) {
+            TD1.thumbs.length = 0;
+            return;
+        }
+
+        // if we're ending a post, remove the ender div (it's only there to trigger this) and place any thumbs...
+        if (thisDiv.className == 'post_ender_td1' ) {
+            TD1.buildThumbTable( thisDiv );
+            $( thisDiv ).remove();
+        }
+
+    };
+    return handler;
+};
+
+
+// inserts a div with a floating table of the given array of images as a sibling preceding the given target element...
+TD1.buildThumbTable = function( target ) {
+
+    // iterate over the tabled items find the biggest size specification...
+    var targetSize = 's';
+    for (var i = 0; i < TD1.thumbs.length; i++) {
+        var thisSize = TD1.thumbs[i].meta.size;
+        if ((targetSize == 's') && (thisSize != 's'))
+            targetSize = thisSize;
+        else if ((targetSize == 'm') && (thisSize == 'l'))
+            targetSize = 'l';
+    }
+
+    // add a div for our table...
+    $( target).before( '<div class="thumb_div"></div>' );
+
+    // iterate over our content to be put in a thumb table, appending them...
+    for (var j = 0; j < TD1.thumbs.length; j++) {
+
+        // assign the right classes...
+        if (TD1.thumbs[j].item[0].tagName.toLowerCase() == 'iframe')
+            TD1.addClass( TD1.thumbs[j].item, 'iframe_table_td1' );
+        else
+            TD1.addClass( TD1.thumbs[j].item, 'img_table_td1' );
+        TD1.setSize( TD1.thumbs[j].item, TD1.thumbs[j].meta );
+
+        // insert our new thumb...
+        $( target ).prev().append( TD1.thumbs[j].item );
+    }
+};
+
+
+// if the given element is not a child of a paragraph, wraps it in a paragraph; otherwise, does nothing...
+TD1.ensureParagraph = function( element ) {
+
+    // if our parent is a paragraph already, just leave...
+    if (element.parentNode.tagName.toLowerCase() == 'p')
+        return;
+
+    // wrap our element in a bare naked paragraph...
+    $( element).wrap( '<p></p>' );
+};
+
+
+// sizes the given element according to the given metadata size code (sml)...
+TD1.setSize = function( element, meta ) {
+
+    // remove any height and width attributes, as they'll mess us up...
+    $( element )[0].removeAttribute( 'height' );
+    $( element )[0].removeAttribute( 'width' );
+
+    // assign the right class...
+    TD1.addClass( element, TD1.sizeClasses[meta.size] );
+};
+
+
+// positions the given element according to the given metadata position code (<!>#).  If the position is thumb table ("#"), then the element is
+// removed from the flow and added to the thumbs array...
+TD1.setPosition = function( element, meta ) {
+
+    // if the position is thumb table, handle that and leave...
+    if (meta.position == '#')
+        TD1.thumbs.push( { item: $(element).detach(), meta: meta } );
+
+    // otherwise, add the right positioning class...
+    else
+        TD1.addClass( element, TD1.positionClasses[meta.position] );
+};
+
+
+// parse any metadata (size, position, etc.) from the given string, and return them in a metadata object...
+TD1.parseMeta = function( s ) {
+
+    // create a result object with defaults...
+    var result = { size: 's', position: '>' };
+
+    // parse all the directive characters, setting map values appropriately...
+    for (var i = 0; s && (i < s.length); i++) {
+        var c = s.charAt(i);
+        switch (c) {
+
+            case '>':  // position right...
+            case '<':  // position left...
+            case '!':  // position inline...
+            case '#':  // position in trailing table...
+                result.position = c;
+                break;
+
+            case 's':  // size small...
+            case 'm':  // size medium...
+            case 'l':  // size large...
+                result.size = c;
+                break;
+        }
+    }
+
+    return result;
 };
 
 

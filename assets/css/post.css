@@ -82,6 +82,12 @@
     margin-bottom: 4.8px;
     border: 1px solid #294027;
     border-radius: 6px; }
+  .post_td1 .post_content_td1 .iframe_table_td1 {
+    display: inline-block;
+    vertical-align: text-bottom;
+    margin-right: 4.8px;
+    margin-bottom: 4.8px;
+    border: 1px solid #294027; }
   .post_td1 .thumb_div {
     padding-top: 4.8px;
     padding-left: 4.8px;
