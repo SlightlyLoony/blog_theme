@@ -59,13 +59,14 @@ TD1.moreClick = function( event ) {
     var truncatedGradient = $( event.target).parent().parent();
     var thisPost = truncatedGradient.parent();
     var innerPost = thisPost.children( '.post_inner_td1');
+    var lessButt = thisPost.children( '.less_td1' );
 
     // first kill the gradient overlay, which contains the "more" button...
     truncatedGradient.css( 'display', 'none' );
 
     // animate exposing the whole post...
     TD1.truncatedPostHeight = parseFloat( thisPost.css( 'max-height' ) );
-    var targetMaxHeight = innerPost.height();
+    var targetMaxHeight = innerPost.height() + lessButt.height();
     var ms = (targetMaxHeight - TD1.truncatedPostHeight) / 0.5;
     var properties = { 'max-height' : targetMaxHeight };
     thisPost.animate( properties, ms, 'swing', displayLessButton );
@@ -74,7 +75,7 @@ TD1.moreClick = function( event ) {
     function displayLessButton() {
 
         // finally, display the "less" button...
-        thisPost.children( '.less_td1' ).css( 'display', 'block' );
+        lessButt.css( 'display', 'block' );
     }
 };
 
@@ -99,6 +100,9 @@ TD1.lessClick = function( event ) {
 
         // finally, enable the "more" button...
         thisPost.children( '.truncated_post_gradient_div_td1' ).css( 'display', 'block' );
+
+        // and make sure our original article is in view...
+        thisPost[0].scrollIntoView( true );
     }
 };
 
